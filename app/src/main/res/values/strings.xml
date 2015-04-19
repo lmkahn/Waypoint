@@ -3,4 +3,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string-array name="yelp_categories">
+        <item>Restaurants</item>
+        <item>Bars</item>
+        <item>Coffee and Tea</item>
+        <item>Gas and Service Stations</item>
+        <item>Drugstores</item>
+        <item>Shopping</item>
+    </string-array>
 </resources>
