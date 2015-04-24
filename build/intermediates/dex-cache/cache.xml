@@ -2,165 +2,165 @@
 <items version="2" >
 
     <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.0.0/classes.jar"
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\7.0.0\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="3033cc3a2c68dff3e5b646d6d084bdbdf7d00b25">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-296799ca569dfcd281f46a62c0e19cdacfed1dbd.jar" />
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-d1693eac9ddc6fac515bac4b39dabed94e63bbd6.jar" />
     </item>
     <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="3c0b099f9de16b265ecd6122fcb603e7d0d29f90">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-f24e6977bdc99782859468c7e2b6371a149aa5bc.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appstate/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="7ff613bf78ab057293892fdbd4169eda899c89b9">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-139eeea0c3b7f7e09e9ca63fa0f3b1d52c38508c.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="fb04b12526b0073c7fb1ebb70c5842d82ee95596">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-653235d43cdb9a33caa97aebb9817ad927c72e2a.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="41b3870cbe5fa546d8095b5b89d42cb69f3dd175">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-5187b83d4c97c485fc2c4a1f5d28c476ccb5b10c.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="73ccb92b70112f2e463e415ef8d7275de7da6516">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-7339c1b145d968b47c571ee485e3c95dfc70ea26.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-2356a75217257ffd3001218fd77a2dbe461b80e3.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a96b762bde4139de855735f175ec4d17dca55a6d">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-b3bb2720c49a8644228ccf09acd1a750007d33f1.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/libs/internal_impl-22.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-940b717f001595219dacafc26545a956c12da80e.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="e3d791b42eaa90416cd0b2d2e608092794a3baa4">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-0d20ed658ace2776150ac9521fa997b7b6db2c2c.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4cd0b093824b3228fffc21ea369b98d0b1db6566">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-75a2415d2494674944435549171994b6d8ca397d.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-3d710deb426ce6d8a38bf61214fd84858020d938.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="29fd6d3794b71491c2789708cd8d03c71feb8954">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-475008fdbfe2565c3f948ab9e5ae13023e201c85.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="c976518693e89ad44fbfccfc654941eaec198d08">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-0b4835a133cf4604e90fb2e8d2a0ed62dde614e6.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/7.0.0/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a08d65794b844d8e7540bf9a33859bf3b2482d7f">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-7cb27acdb28599b6028eefbda262efbde46b4c18.jar" />
-    </item>
-    <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/7.0.0/classes.jar"
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\7.0.0\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="0e8228b4bc69c6a2c8d7c18498a77e53417d2574">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-a938481d918ecaa00210380e2d309f58eba82fe9.jar" />
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-da4c7e66de658beb92cb703eb25936a5efa73baf.jar" />
     </item>
     <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/7.0.0/classes.jar"
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\7.0.0\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="ef5f051e7308febe289dc93c67c5f32785b4260a">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-6e0576536a4f0341e6ccf6a050f36eb1afe5eb6a.jar" />
+        sha1="c976518693e89ad44fbfccfc654941eaec198d08">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-33b18688e3f3d39b7ef18d78fdf4d434465d9b5a.jar" />
     </item>
     <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.0.0/classes.jar"
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\libs\internal_impl-22.0.0.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="4c93d99d454c975536bbe3b42283eee847f03ea3">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-0c0f9e2e4f9646e4fd9c5a5d4a2ffa0a83b8c2d9.jar" />
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-43ab1d69efa182079b97d73f0def0d38d360d006.jar" />
     </item>
     <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.0.0/classes.jar"
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.0.0\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="9224bc4c54ba95147c7eabd874573763c07cb6be">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-187aaacb934ff01d1c04542bf886d32ecdd08f6d.jar" />
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-c15090eb8b241a65fbc5bb7ae708643c01cbe950.jar" />
     </item>
     <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/7.0.0/classes.jar"
+        jar="C:\Users\cassie\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-a92cfa92c07edee641613a6a6906dcd41ff9fbc6.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\7.0.0\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="1c5a76debf0c2857ccad422c4a80ed785982f8df">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-1d36e30bd8eca7df5bee641cbf1cf08dcb47ac93.jar" />
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-c813d5e94c2756dd3e562df9f65f2d97169ef494.jar" />
     </item>
     <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/classes.jar"
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.0.0\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-4e780d1cfeeb47cae846617962907fd359a8e004.jar" />
+        sha1="73ccb92b70112f2e463e415ef8d7275de7da6516">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-c2d328f9817248af63dd21085b934496e02d4bc1.jar" />
     </item>
     <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.0.0/classes.jar"
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a96b762bde4139de855735f175ec4d17dca55a6d">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-1c3458541fd2a52e588d95d7102e34ec20216fcd.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.0.0\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="17f8750d5c0749e44dd7c54aa390d9c937803825">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-16c2213b968c4273109aa5f7317ed2a97921a2c4.jar" />
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-8de365978082db83431ef0caada1804d134918dd.jar" />
     </item>
     <item
-        jar="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/7.0.0/classes.jar"
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="fb04b12526b0073c7fb1ebb70c5842d82ee95596">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-f7b61cb0c2c2a1be4dad0ecc1c765acdc518c1c3.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appstate\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7ff613bf78ab057293892fdbd4169eda899c89b9">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-da991e546fadbf9708574bbf3e08d2781b7a0c73.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-8aded7c5ac190755c68de199324a2841cc967034.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a08d65794b844d8e7540bf9a33859bf3b2482d7f">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-96b97325918831115562246671f166e0e5908a02.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4cd0b093824b3228fffc21ea369b98d0b1db6566">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-ecc2f2ebbb888c7cde81ea7f25ad3d00f14408b2.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e3d791b42eaa90416cd0b2d2e608092794a3baa4">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-2ad331a0623128c67f097c211e520cfc67d8426c.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="29fd6d3794b71491c2789708cd8d03c71feb8954">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-2f22c3b83a09da30a82d68c1ee66acd146ea5781.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-c58b4eaaeca37361ba79b57c55c40a7db156b8d4.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ef5f051e7308febe289dc93c67c5f32785b4260a">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-0f04eef28194bc22e0fa19bae044122fa9373b04.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\7.0.0\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="055783146ba9654a725442563be78cad303aad1f">
-        <dex dex="/Users/Lauren/Documents/My Documents/WPI Senior Year/Mobile Computing/Waypoint2/app/build/intermediates/pre-dexed/debug/classes-2aae49a2315f8a0ed31babd892123afe8a45a3af.jar" />
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-7cab47dfcb9746666f5ab9ddb2c54940c31ae794.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3c0b099f9de16b265ecd6122fcb603e7d0d29f90">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-7d935badd0d7593f821b19e94bd54f703f4e19c6.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4c93d99d454c975536bbe3b42283eee847f03ea3">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-8233a83e7a9a5737ac64b7ce1c7efcd9d3c2e82c.jar" />
+    </item>
+    <item
+        jar="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="41b3870cbe5fa546d8095b5b89d42cb69f3dd175">
+        <dex dex="C:\Users\cassie\Documents\GitHub\Waypoint\app\build\intermediates\pre-dexed\debug\classes-c9b27bb25c6470f969dd3059fad2524e66b3384d.jar" />
     </item>
 
 </items>
