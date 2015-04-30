@@ -35,12 +35,14 @@ public class ResultsArrayAdapter extends CursorAdapter {
         TextView resLocation = (TextView) view.findViewById(R.id.list_item_location);
         TextView resMilesAway = (TextView) view.findViewById(R.id.list_item_miles_away);
         TextView resArrivalTime = (TextView) view.findViewById(R.id.list_item_arrival_time);
+        TextView resId = (TextView) view.findViewById(R.id.list_item_id);
         // Extract properties from cursor
         String item_name = cursor.getString(cursor.getColumnIndexOrThrow("res_name"));
         String item_rating = cursor.getString(cursor.getColumnIndexOrThrow("res_rating"));
         String item_location = cursor.getString(cursor.getColumnIndexOrThrow("res_location"));
         String item_miles = cursor.getString(cursor.getColumnIndexOrThrow("res_miles_away"));
         String item_arrival = cursor.getString(cursor.getColumnIndexOrThrow("res_arrival_time"));
+        String item_id = cursor.getString(cursor.getColumnIndexOrThrow("_id"));
 
         // Populate fields with extracted properties
         //tvBody.setText(body);
@@ -51,6 +53,7 @@ public class ResultsArrayAdapter extends CursorAdapter {
         resLocation.setText(item_location);
         resMilesAway.setText(item_miles);
         resArrivalTime.setText(item_arrival);
+        resId.setText(item_id);
 
 
     }

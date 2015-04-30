@@ -1,12 +1,14 @@
 package com.lauren.waypoint;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -20,17 +22,63 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MainActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks,
+public class ResultMapActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private GoogleApiClient mGoogleApiClient;
-    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = ResultMapActivity.class.getSimpleName();
     private LocationRequest mLocationRequest;
     private GoogleMap mMap;
+    SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_results_map);
+
+        // Find fields to populate in inflated template
+        TextView resName = (TextView) findViewById(R.id.item_service_name);
+        RatingBar resRating = (RatingBar) findViewById(R.id.item_rating);
+        TextView resLocation = (TextView) findViewById(R.id.item_location);
+        TextView resMilesAway = (TextView) findViewById(R.id.item_miles_away);
+        TextView resArrivalTime = (TextView) findViewById(R.id.item_arrival_time);
+        TextView resId = (TextView) findViewById(R.id.item_id);
+
+        String name;
+        String location;
+        String rating;
+        String milesAway;
+        String arrivalTime;
+        String id;
+
+        if (savedInstanceState == null) {
+            Bundle bundle = getIntent().getExtras();
+            if(bundle == null) {
+                id = null;
+            } else {
+               id = bundle.getString("ID");
+            }
+        } else {
+            id = (String) savedInstanceState.getSerializable("ID");
+        }
+
+        ResultsDBHelper db = new ResultsDBHelper(this);
+        database = db.getWritableDatabase();
+
+        String queryString = "SELECT * FROM yelpResults WHERE _id=" + "'" + id + "'";
+        Cursor c = database.rawQuery(queryString, null);
+        c.moveToFirst();
+        name = c.getString(c.getColumnIndexOrThrow("res_name"));
+        location = c.getString(c.getColumnIndexOrThrow("res_location"));
+        rating = c.getString(c.getColumnIndexOrThrow("res_rating"));
+        milesAway = c.getString(c.getColumnIndexOrThrow("res_miles_away"));
+        arrivalTime = c.getString(c.getColumnIndexOrThrow("res_arrival_time"));
+
+        resName.setText(name);
+        resLocation.setText(location);
+        resMilesAway.setText(milesAway);
+        resArrivalTime.setText(arrivalTime);
+        resRating.setRating(3/5);
+
         setUpMapIfNeeded();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -45,6 +93,10 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
     }
 
+    public void addPointToRoute(View v){
+        Intent intent = new Intent(this, RouteSummaryActivity.class);
+        startActivity(intent);
+    }
     @Override
     protected void onResume() {
         super.onResume();

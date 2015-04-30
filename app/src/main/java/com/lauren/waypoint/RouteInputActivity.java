@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -19,11 +20,14 @@ public class RouteInputActivity extends FragmentActivity {
 
         ResultsDBHelper db = new ResultsDBHelper(this);
         database = db.getWritableDatabase();
+        System.out.println("this is a console message");
+        Log.i("messagetest", "this is a log message");
 
     }
     //handles submit button click to query for route results
     public void onSubmitRoute(View v){
         Intent intent = new Intent(this, ListItemResults.class);
         startActivity(intent);
+        //System.out.println("this is a console message");
     }
 }

@@ -1,6 +1,7 @@
 package com.lauren.waypoint;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.lauren.waypoint.R;
 
@@ -28,14 +30,7 @@ public class ListItemResults extends ListActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_results_listview);
-        /*
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2" };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, values);
-        setListAdapter(adapter);
-        */
+
 
         ResultsDBHelper db = new ResultsDBHelper(this);
         database = db.getWritableDatabase();
@@ -53,7 +48,14 @@ public class ListItemResults extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        String item = (String) getListAdapter().getItem(position);
-        Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
+        TextView resultIdText = (TextView) v.findViewById(R.id.list_item_id);
+        String resultId = (String) resultIdText.getText();
+
+        Intent intent = new Intent(this, ResultMapActivity.class);
+        intent.putExtra("ID", resultId);
+
+        startActivity(intent);
+
+
     }
 }
