@@ -1,96 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+ <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="Route:"
-        android:textSize="18sp"/>
-    <EditText
-        android:id="@+id/route_start_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:hint="Starting Point"/>
-    <EditText
-        android:id="@+id/route_end_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="Destination"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="Search For:"
-        android:textSize="18sp"/>
-
-    <Spinner
-        android:id="@+id/service_type_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/yelp_categories"
-    />
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Route"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textSize="18sp"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.5dp"
+            android:background="#42000000"
+            android:layout_marginBottom="15dp"
+            />
         <EditText
-            android:id="@+id/hours_input"
-            android:layout_width="wrap_content"
+            android:id="@+id/route_start_input"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="0"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="hours"/>
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:padding="5dp"
+            android:background="@drawable/edittext_style"
+            android:hint="Starting Point"/>
         <EditText
-            android:id="@+id/minutes_input"
-            android:layout_width="wrap_content"
+            android:id="@+id/route_end_input"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="0"/>
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:background="@drawable/edittext_style"
+            android:hint="Destination"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="minutes away"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Search For"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textSize="18sp"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="no more than"/>
-        <EditText
-            android:id="@+id/miles_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="0"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="miles off of my route"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.5dp"
+            android:background="#42000000"
+            android:layout_marginBottom="15dp"
+            />
 
-    </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        android:id="@+id/submit_route"
-        android:onClick="onSubmitRoute"
+        <Spinner
+            android:id="@+id/service_type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:entries="@array/yelp_categories"
         />
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            >
+            <EditText
+                android:id="@+id/hours_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/edittext_style"
+                android:hint="0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hours"/>
+            <EditText
+                android:id="@+id/minutes_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/edittext_style"
+                android:hint="0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="minutes away"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="no more than"/>
+            <EditText
+                android:id="@+id/miles_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/edittext_style"
+                android:hint="0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="miles off of my route"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:background="@drawable/button"
+            android:id="@+id/submit_route"
+            android:onClick="onSubmitRoute"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="8dp"
+            android:textColor="#ffffff"
+            />
+
+    </LinearLayout>
+</ScrollView>
