@@ -5,18 +5,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.lauren.waypoint.R;
-
-import java.util.ArrayList;
 
 /**
  * Created by Lauren on 4/19/15.
@@ -35,7 +26,7 @@ public class ListItemResults extends ListActivity {
         ResultsDBHelper db = new ResultsDBHelper(this);
         database = db.getWritableDatabase();
 
-        String queryString = "SELECT * FROM yelpResults";
+        String queryString = "SELECT * FROM YelpData";
         Cursor c = database.rawQuery(queryString, null);
         // Find ListView to populate
         ListView resultsListView = (ListView) findViewById(android.R.id.list);

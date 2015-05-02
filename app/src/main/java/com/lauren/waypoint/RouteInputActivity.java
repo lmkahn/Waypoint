@@ -64,7 +64,7 @@ public class RouteInputActivity extends FragmentActivity {
 
                 //Get route
                 //Route router = new Route(startLat, startLong, destLat, destLong, seconds);
-                Route router = new Route(startNameString, destNameString, seconds);
+                Route router = new Route(startNameString, destNameString, seconds, database);
                 Thread t = new Thread(router);
                 t.start();
             }

@@ -1,45 +1,33 @@
 package com.lauren.waypoint;
 
-import android.support.annotation.NonNull;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpRequest;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.simple.JSONArray;
-import org.json.JSONException;
 import org.json.simple.JSONObject;
-import org.json.JSONTokener;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by Andy on 4/29/15.
@@ -58,11 +46,13 @@ public class Route implements Runnable{
     String start;
     String destination;
     int secondsToStart;
+    SQLiteDatabase database;
 
-    public Route(String start, String destination, int secondsToStart) {
+    public Route(String start, String destination, int secondsToStart, SQLiteDatabase database) {
         this.start = start;
         this.destination = destination;
         this.secondsToStart = secondsToStart;
+        this.database = database;
     }
 
     public Route(String lat1, String long1, String lat2, String long2, int secondsToStart) {
@@ -209,7 +199,7 @@ public class Route implements Runnable{
 
             Yelp yelp = new Yelp("lunch", beginCoords.get("lat").toString(),
                     beginCoords.get("long").toString(), endCoords.get("lat").toString(),
-                    endCoords.get("long").toString());
+                    endCoords.get("long").toString(), database);
 
             ArrayList<HashMap<String, String>> yelpResults = yelp.queryAPI();
             for(i = 0; i < yelpResults.size(); i++) {

@@ -1,5 +1,7 @@
 package com.lauren.waypoint;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -43,6 +45,8 @@ public class Yelp {
     public String neLat = DEFAULT_NE_LATITUDE;
     public String neLong = DEFAULT_NE_LONGITUDE;
 
+    private SQLiteDatabase database;
+
     /**
      * Setup the Yelp API OAuth credentials and take in parameters
      *
@@ -52,7 +56,7 @@ public class Yelp {
      * @param yelpNELat northeast latitude of bounding box for yelp location to query for
      * @param yelpNELong northeast longitude of bounding box for yelp location to query for
      */
-    public Yelp(String yelpTerm, String yelpSWLat, String yelpSWLong, String yelpNELat, String yelpNELong){
+    public Yelp(String yelpTerm, String yelpSWLat, String yelpSWLong, String yelpNELat, String yelpNELong, SQLiteDatabase database){
         this.service =
                 new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(CONSUMER_KEY)
                         .apiSecret(CONSUMER_SECRET).build();
@@ -166,6 +170,10 @@ public class Yelp {
         yelpHashMap.put("latitude", businessCoords[0]);
         yelpHashMap.put("longitude", businessCoords[1]);
         yelpHashMap.put("categories", businessCategories);
+
+        String databaseString = "INSERT INTO YelpData (Name, Rating, Address, Link, Latitude, Longitude, Categories) VALUES (" + businessName + ", " + businessRating + ", " + businessAddress + ", " + businessYelpLink + ", " + businessCoords[0] + ", " + businessCoords[1] + ", " + businessCategories + ");";
+        database.execSQL(databaseString);
+
         return yelpHashMap;
 
     }
@@ -226,12 +234,12 @@ public class Yelp {
         String finalCategories = categories.substring(0,categories.length()-1);
         return finalCategories;
     }
-
-
-    public static void main(String[] args) {
-        Yelp yelp = new Yelp("lunch","37.9", "-122.5", "37.78", "-122.3");
-        yelp.queryAPI();
-    }
+//
+//
+//    public static void main(String[] args) {
+//        Yelp yelp = new Yelp("lunch","37.9", "-122.5", "37.78", "-122.3");
+//        yelp.queryAPI();
+//    }
 
 
 }
