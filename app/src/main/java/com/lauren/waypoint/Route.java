@@ -193,38 +193,53 @@ public class Route implements Runnable{
         }
 
         //Have a list of latlong pairs to call on yelp API
+
+        //List of yelp results
+        List<HashMap<String, String>> yelpResultToStore = new ArrayList<>();
         for (int i = 0; i < validCoords.size(); i++) {
             //Maybe puff up a value if the box is practically a line?
 
             HashMap beginCoords = validCoords.get(i);
             HashMap endCoords = validCoords.get(i+1);
-            Yelp yelp = new Yelp("lunch", beginCoords.get("lat").toString(),
-                    beginCoords.get("long").toString(), endCoords.get("lat").toString(),
-                    endCoords.get("long").toString());
-            //Now what do I call?
-
-
             //Determine the distance between the beginning, end, and center points
             HashMap centerCoords = midPoint(Double.parseDouble(beginCoords.get("lat").toString()),
                     Double.parseDouble(beginCoords.get("long").toString()),
                     Double.parseDouble(endCoords.get("lat").toString()),
                     Double.parseDouble(endCoords.get("long").toString()));
 
+            Yelp yelp = new Yelp("lunch", beginCoords.get("lat").toString(),
+                    beginCoords.get("long").toString(), endCoords.get("lat").toString(),
+                    endCoords.get("long").toString());
 
-            //For each yelp result, find how far it is from the route
-//            double beginDistance = distance(Double.parseDouble(beginCoords.get("lat").toString()),
-//                    );
-//
-//            double middleDistance = distance(Double.parseDouble(endCoords.get("lat").toString()),
-//                    );
-//
-//            double endDistance = distance(Double.parseDouble(centerCoords.get("lat")),
-//                    );
-//
-//            double distanceEstimate = (beginDistance + middleDistance + endDistance) / 3;
+            ArrayList<HashMap<String, String>> yelpResults = yelp.queryAPI();
+            for(i = 0; i < yelpResults.size(); i++) {
+                HashMap<String, String> yelpResult = yelpResults.get(i);
+                Double resultLat = Double.parseDouble(yelpResult.get("latitude"));
+                Double resultLong = Double.parseDouble(yelpResult.get("longitude"));
+                //For each yelp result, find how far it is from the route
+                double beginDistance = distance(Double.parseDouble(beginCoords.get("lat").toString()),
+                    resultLat, Double.parseDouble(beginCoords.get("long").toString()), resultLong);
+
+                double middleDistance = distance(Double.parseDouble(centerCoords.get("lat").toString()),
+                        resultLat, Double.parseDouble(centerCoords.get("long").toString()), resultLong);
+
+                double endDistance = distance(Double.parseDouble(endCoords.get("lat").toString()),
+                        resultLat, Double.parseDouble(endCoords.get("long").toString()), resultLong);
+                double distanceEstimate = (beginDistance + middleDistance + endDistance) / 3;
+                yelpResult.put("distanceFromRoute", String.valueOf(distanceEstimate));
+                yelpResultToStore.add(yelpResult);
+                //yelpResults.set(i, yelpResult);
+            }
 
         }
 
+        //We now have a list of yelp results. What do we do with them?
+
+        for (HashMap<String, String> result : yelpResultToStore) {
+
+        }
+        //Let's sort them by distance
+        //yelpResultToStore
 
     }
 
