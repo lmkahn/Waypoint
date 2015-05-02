@@ -11,6 +11,8 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
+import java.util.HashMap;
+
 /**
  * Created by Lauren on 4/29/15.
  */
@@ -127,7 +129,7 @@ public class Yelp {
         return response;
     }
 
-    public void queryAPIForBusiness(JSONObject response, int numBusiness){
+    public HashMap<String, String> queryAPIForBusiness(JSONObject response, int numBusiness){
         JSONArray businesses = (JSONArray) response.get("businesses");
         JSONObject theBusiness = (JSONObject) businesses.get(numBusiness);
         String businessID = theBusiness.get("id").toString();
@@ -146,8 +148,19 @@ public class Yelp {
         System.out.println("Yelp Link: " + businessYelpLink);
         String[] businessCoords = getBusinessLatLongCoords(theBusiness);
         System.out.println("Coords: " + businessCoords[0] + " " + businessCoords[1]);
-        String categories = getBusinessCategories(theBusiness);
-        System.out.println("Categories: " + categories);
+        String businessCategories = getBusinessCategories(theBusiness);
+        System.out.println("Categories: " + businessCategories);
+
+        HashMap<String, String> yelpHashMap = new HashMap<String, String>();
+        yelpHashMap.put("id", businessID);
+        yelpHashMap.put("name", businessName);
+        yelpHashMap.put("rating", businessRating.toString());
+        yelpHashMap.put("address", businessAddress);
+        yelpHashMap.put("link", businessYelpLink);
+        yelpHashMap.put("latitude", businessCoords[0]);
+        yelpHashMap.put("longitude", businessCoords[1]);
+        yelpHashMap.put("categories", businessCategories);
+        return yelpHashMap;
 
     }
 
