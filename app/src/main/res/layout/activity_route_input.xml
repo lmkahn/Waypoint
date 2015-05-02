@@ -25,24 +25,56 @@
             android:background="#42000000"
             android:layout_marginBottom="15dp"
             />
-        <EditText
-            android:id="@+id/route_start_input"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:padding="5dp"
-            android:background="@drawable/edittext_style"
-            android:hint="Starting Point"/>
-        <EditText
-            android:id="@+id/route_end_input"
+            android:orientation="horizontal"
+
+            >
+            <EditText
+                android:id="@+id/route_start_input"
+                android:layout_width="0dp"
+                android:layout_weight="9"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"
+                android:background="@drawable/edittext_style"
+                android:hint="Starting Point"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="*"
+                android:textColor="#E60000"
+                android:visibility="gone"
+                android:id="@+id/start_required"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:background="@drawable/edittext_style"
-            android:hint="Destination"/>
+            android:orientation="horizontal"
+        >
+            <EditText
+                android:id="@+id/route_end_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/edittext_style"
+                android:hint="Destination"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="*"
+                android:textColor="#E60000"
+                android:visibility="gone"
+                android:id="@+id/end_required"/>
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,7 +121,8 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:background="@drawable/edittext_style"
-                android:hint="0"/>
+                android:hint="0"
+                android:inputType="number"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,7 +138,8 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:background="@drawable/edittext_style"
-                android:hint="0"/>
+                android:hint="0"
+                android:inputType="number"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -135,7 +169,8 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:background="@drawable/edittext_style"
-                android:hint="0"/>
+                android:hint="0"
+                android:inputType="number"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
