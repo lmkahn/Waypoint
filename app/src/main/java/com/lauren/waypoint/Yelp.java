@@ -66,6 +66,7 @@ public class Yelp {
         this.swLong = yelpSWLong;
         this.neLat = yelpNELat;
         this.neLong = yelpNELong;
+        this.database = database;
     }
 
     /**
@@ -116,8 +117,9 @@ public class Yelp {
      */
     public ArrayList<HashMap<String, String>> queryAPI() {
         JSONObject response = queryAPIJSONResponse();
+        JSONArray numBusinesses = (JSONArray) response.get("businesses");
         ArrayList<HashMap<String, String>> listOfYelpResults = new ArrayList<HashMap<String, String>>();
-        for(int i = 0; i < SEARCH_LIMIT; i++){
+        for(int i = 0; i < numBusinesses.size(); i++){
             HashMap<String, String> result = queryAPIForBusiness(response, i);
             listOfYelpResults.add(result);
         }
@@ -140,6 +142,8 @@ public class Yelp {
     }
 
     public HashMap<String, String> queryAPIForBusiness(JSONObject response, int numBusiness){
+        HashMap<String, String> yelpHashMap = new HashMap<String, String>();
+
         JSONArray businesses = (JSONArray) response.get("businesses");
         JSONObject theBusiness = (JSONObject) businesses.get(numBusiness);
         String businessID = theBusiness.get("id").toString();
@@ -161,7 +165,6 @@ public class Yelp {
         String businessCategories = getBusinessCategories(theBusiness);
         System.out.println("Categories: " + businessCategories);
 
-        HashMap<String, String> yelpHashMap = new HashMap<String, String>();
         yelpHashMap.put("id", businessID);
         yelpHashMap.put("name", businessName);
         yelpHashMap.put("rating", businessRating.toString());
@@ -171,7 +174,7 @@ public class Yelp {
         yelpHashMap.put("longitude", businessCoords[1]);
         yelpHashMap.put("categories", businessCategories);
 
-        String databaseString = "INSERT INTO YelpData (Name, Rating, Address, Link, Latitude, Longitude, Categories) VALUES (" + businessName + ", " + businessRating + ", " + businessAddress + ", " + businessYelpLink + ", " + businessCoords[0] + ", " + businessCoords[1] + ", " + businessCategories + ");";
+        String databaseString = "INSERT INTO YelpData (Name, Rating, Address, Link, Latitude, Longitude, Categories) VALUES (" + '"' + businessName + '"'+ ", " + businessRating + ", '" + businessAddress + "', '" + businessYelpLink + "', '" + businessCoords[0] + "', '" + businessCoords[1] + "', '" + businessCategories + "');";
         database.execSQL(databaseString);
 
         return yelpHashMap;
@@ -204,11 +207,18 @@ public class Yelp {
 
     public String getBusinessAddress(JSONObject business){
         JSONObject location = (JSONObject) business.get("location");
-        String street = location.get("address").toString();
-        String streetSubstring = street.substring(2, street.length()-2);
+        JSONArray streetArray = (JSONArray) location.get("address");
+        String street = "";
+        for(Object a : streetArray){
+            String streetSubstring = a.toString().substring(0, a.toString().length());
+            street+= streetSubstring + " ";
+        }
+        String finalStreet = street.substring(0, street.length());
+//        String street = location.get("address").toString();
+//        String streetSubstring = street.substring(2, comma-1);
         String city = (String) location.get("city");
         String state = (String) location.get("state_code");
-        return streetSubstring + " " + city + ", " + state;
+        return finalStreet + " " + city + ", " + state;
     }
 
     public String getBusinessYelpLink(JSONObject business){

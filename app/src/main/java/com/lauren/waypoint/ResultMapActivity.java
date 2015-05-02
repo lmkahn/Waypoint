@@ -64,14 +64,14 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
         ResultsDBHelper db = new ResultsDBHelper(this);
         database = db.getWritableDatabase();
 
-        String queryString = "SELECT * FROM yelpResults WHERE _id=" + "'" + id + "'";
+        String queryString = "SELECT * FROM YelpData WHERE _id=" + "'" + id + "'";
         Cursor c = database.rawQuery(queryString, null);
         c.moveToFirst();
-        name = c.getString(c.getColumnIndexOrThrow("res_name"));
-        location = c.getString(c.getColumnIndexOrThrow("res_location"));
-        rating = c.getString(c.getColumnIndexOrThrow("res_rating"));
-        milesAway = c.getString(c.getColumnIndexOrThrow("res_miles_away"));
-        arrivalTime = c.getString(c.getColumnIndexOrThrow("res_arrival_time"));
+        name = c.getString(c.getColumnIndexOrThrow("name"));
+        location = c.getString(c.getColumnIndexOrThrow("address"));
+        rating = c.getString(c.getColumnIndexOrThrow("rating"));
+        milesAway = c.getString(c.getColumnIndexOrThrow("distance"));
+        arrivalTime = c.getString(c.getColumnIndexOrThrow("latitude"));
 
         resName.setText(name);
         resLocation.setText(location);

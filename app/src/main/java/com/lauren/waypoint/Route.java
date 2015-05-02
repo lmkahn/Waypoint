@@ -47,8 +47,10 @@ public class Route implements Runnable{
     String destination;
     int secondsToStart;
     SQLiteDatabase database;
+    String category;
 
-    public Route(String start, String destination, int secondsToStart, SQLiteDatabase database) {
+    public Route(String category, String start, String destination, int secondsToStart, SQLiteDatabase database) {
+        this.category = category;
         this.start = start;
         this.destination = destination;
         this.secondsToStart = secondsToStart;
@@ -166,13 +168,15 @@ public class Route implements Runnable{
                         HashMap latLong = new HashMap();
                         JSONObject stepEndLocation = ((JSONObject) ((JSONObject) jSteps.get(k)).get("start_location"));
                         latLong.put("lat", stepEndLocation.get("lat"));
-                        latLong.put("long", stepEndLocation.get("long"));
+                        latLong.put("long", stepEndLocation.get("lng"));
                         validCoords.add(latLong);
                     }
                     HashMap latLong = new HashMap();
                     JSONObject stepEndLocation = ((JSONObject) ((JSONObject) jSteps.get(k)).get("end_location"));
-                    latLong.put("lat", stepEndLocation.get("lat"));
-                    latLong.put("long", stepEndLocation.get("long"));
+                    String lat = stepEndLocation.get("lat").toString();
+                    String lon = stepEndLocation.get("lng").toString();
+                    latLong.put("lat", lat);
+                    latLong.put("long", lon);
                     validCoords.add(latLong);
                 }
                 secondsTraveled += secondsOfStep;
@@ -186,7 +190,8 @@ public class Route implements Runnable{
 
         //List of yelp results
         List<HashMap<String, String>> yelpResultToStore = new ArrayList<>();
-        for (int i = 0; i < validCoords.size(); i++) {
+        List<String> establishmentNames = new ArrayList<>(); //Used to check uniqueness
+        for (int i = 0; i < validCoords.size() -1 ; i++) {
             //Maybe puff up a value if the box is practically a line?
 
             HashMap beginCoords = validCoords.get(i);
@@ -197,36 +202,50 @@ public class Route implements Runnable{
                     Double.parseDouble(endCoords.get("lat").toString()),
                     Double.parseDouble(endCoords.get("long").toString()));
 
-            Yelp yelp = new Yelp("lunch", beginCoords.get("lat").toString(),
+            Yelp yelp = new Yelp(category, beginCoords.get("lat").toString(),
                     beginCoords.get("long").toString(), endCoords.get("lat").toString(),
                     endCoords.get("long").toString(), database);
 
             ArrayList<HashMap<String, String>> yelpResults = yelp.queryAPI();
-            for(i = 0; i < yelpResults.size(); i++) {
-                HashMap<String, String> yelpResult = yelpResults.get(i);
-                Double resultLat = Double.parseDouble(yelpResult.get("latitude"));
-                Double resultLong = Double.parseDouble(yelpResult.get("longitude"));
-                //For each yelp result, find how far it is from the route
-                double beginDistance = distance(Double.parseDouble(beginCoords.get("lat").toString()),
-                    resultLat, Double.parseDouble(beginCoords.get("long").toString()), resultLong);
+            for(int j = 0; j < yelpResults.size(); j++) {
+                HashMap<String, String> yelpResult = yelpResults.get(j);
 
-                double middleDistance = distance(Double.parseDouble(centerCoords.get("lat").toString()),
-                        resultLat, Double.parseDouble(centerCoords.get("long").toString()), resultLong);
+                //Check that this isn't already in the list to add
+                String establishmentName = yelpResult.get("name");
+                if(!(establishmentNames.contains(establishmentName))) {
 
-                double endDistance = distance(Double.parseDouble(endCoords.get("lat").toString()),
-                        resultLat, Double.parseDouble(endCoords.get("long").toString()), resultLong);
-                double distanceEstimate = (beginDistance + middleDistance + endDistance) / 3;
-                yelpResult.put("distanceFromRoute", String.valueOf(distanceEstimate));
-                yelpResultToStore.add(yelpResult);
-                //yelpResults.set(i, yelpResult);
+                    Double resultLat = Double.parseDouble(yelpResult.get("latitude"));
+                    Double resultLong = Double.parseDouble(yelpResult.get("longitude"));
+                    //For each yelp result, find how far it is from the route
+                    double beginDistance = distance(Double.parseDouble(beginCoords.get("lat").toString()),
+                            resultLat, Double.parseDouble(beginCoords.get("long").toString()), resultLong);
+
+                    double middleDistance = distance(Double.parseDouble(String.valueOf(centerCoords.get("lat"))),
+                            resultLat, Double.parseDouble(String.valueOf(centerCoords.get("long"))), resultLong);
+
+                    double endDistance = distance(Double.parseDouble(endCoords.get("lat").toString()),
+                            resultLat, Double.parseDouble(endCoords.get("long").toString()), resultLong);
+                    double distanceEstimate = (beginDistance + middleDistance + endDistance) / 3;
+                    yelpResult.put("distanceFromRoute", String.valueOf(distanceEstimate));
+                    yelpResultToStore.add(yelpResult);
+                    //yelpResults.set(i, yelpResult);
+                }
             }
 
         }
 
         //We now have a list of yelp results. What do we do with them?
-
+        int index = 1;
         for (HashMap<String, String> result : yelpResultToStore) {
-
+            String linkLocal = result.get("link");
+            String distanceLocal = result.get("distanceFromRoute");
+            //String selectQuery = "SELECT * FROM YelpData WHERE link=" + linkLocal + ";";
+            //String result = database.execSQL(selectQuery);
+            String databaseString = "INSERT INTO YelpData (_id, Name, Rating, Address, Link, Latitude, Longitude, Categories, Distance) VALUES (" + index + ", " + '"' + result.get("name") + '"'+ ", " + Float.parseFloat(result.get("rating")) + ", '" + result.get("address") + "', '" + result.get("link") + "', '" + result.get("latitude") + "', '" + result.get("longitude") + "', '" + result.get("categories") + "', '" + distanceLocal + "');";
+            database.execSQL(databaseString);
+            index++;
+            //String databaseString = "INSERT INTO YelpData (Distance) VALUES ( " + distanceLocal + ") WHERE link = " + linkLocal + ";";
+            //database.execSQL(databaseString);
         }
         //Let's sort them by distance
         //yelpResultToStore
@@ -267,8 +286,8 @@ public class Route implements Runnable{
         double lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + Bx) * (Math.cos(lat1) + Bx) + By * By));
         double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
         HashMap center = new HashMap();
-        center.put("lat", String.valueOf(lat3));
-        center.put("long", String.valueOf(lon3));
+        center.put("lat", Math.toDegrees(lat3));
+        center.put("long", Math.toDegrees(lon3));
         return center;
     }
 
