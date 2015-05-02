@@ -109,9 +109,10 @@ public class Yelp {
      * Queries the Search API based on the command line arguments and takes the first result to query
      * the Business API.
      */
-    public void queryAPI() {
+    public HashMap<String, String> queryAPI() {
         JSONObject response = queryAPIJSONResponse();
-        queryAPIForBusiness(response, 1);
+        HashMap<String, String> result = queryAPIForBusiness(response, 1);
+        return result; 
     }
 
     public JSONObject queryAPIJSONResponse(){
