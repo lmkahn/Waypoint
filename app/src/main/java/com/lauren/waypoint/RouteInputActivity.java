@@ -3,13 +3,13 @@ package com.lauren.waypoint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by Lauren on 4/19/15.
@@ -31,12 +31,40 @@ public class RouteInputActivity extends FragmentActivity {
         final Button button = (Button) findViewById(R.id.submit_route);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Geocode to get lat and long
-                String lat1 = "";
-                String long1 = "";
-                String lat2 = "";
-                String long2 = "";
-                Route router = new Route(lat1, long1, lat2, long2);
+                //Get LatLong of start
+                EditText startText = (EditText) findViewById(R.id.route_start_input);
+                String startNameString = startText.getText().toString();
+
+                //GeocodingLocation locationAddress = new GeocodingLocation();
+                //HashMap startLatLong = locationAddress.getLatLong(startNameString, getApplicationContext());
+
+                //Get lat and long from the result string
+                //String startLat = startLatLong.get("lat").toString();
+                //String startLong = startLatLong.get("long").toString();
+
+                //Get LatLong of destination
+                EditText destinationText = (EditText) findViewById(R.id.route_end_input);
+                String destNameString = destinationText.getText().toString();
+                //GeocodingLocation locationAddressDest = new GeocodingLocation();
+                //HashMap destinationLatLong = locationAddressDest.getLatLong(destNameString,mgetApplicationContext());
+
+                //Get lat and long from the result string
+                //String destLat = destinationLatLong.get("lat").toString();
+                //String destLong = destinationLatLong.get("long").toString();
+
+                //Get hours and minutes
+                EditText hours = (EditText) findViewById(R.id.hours_input);
+                int hoursVal = Integer.parseInt(hours.getText().toString());
+
+                EditText minutes = (EditText) findViewById(R.id.minutes_input);
+                int minutesVal = Integer.parseInt(minutes.getText().toString());
+
+                int seconds = minutesVal * 60 + hoursVal * 3600;
+                //Finish getting time offset
+
+                //Get route
+                //Route router = new Route(startLat, startLong, destLat, destLong, seconds);
+                Route router = new Route(startNameString, destNameString, seconds);
                 Thread t = new Thread(router);
                 t.start();
             }

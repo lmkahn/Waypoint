@@ -55,12 +55,22 @@ public class Route implements Runnable{
     String lat2;
     String long1;
     String long2;
+    String start;
+    String destination;
+    int secondsToStart;
 
-    public Route(String lat1, String long1, String lat2, String long2) {
+    public Route(String start, String destination, int secondsToStart) {
+        this.start = start;
+        this.destination = destination;
+        this.secondsToStart = secondsToStart;
+    }
+
+    public Route(String lat1, String long1, String lat2, String long2, int secondsToStart) {
         this.lat1 = lat1;
         this.lat2 = lat2;
         this.long1 = long1;
         this.long2 = long2;
+        this.secondsToStart = secondsToStart;
     }
 
     public void route() throws IOException {
@@ -68,8 +78,10 @@ public class Route implements Runnable{
 
         String urlString = "https://maps.googleapis.com/maps/api/directions/json?";
         List<NameValuePair> params = new LinkedList<NameValuePair>();
-        params.add(new BasicNameValuePair("origin", 42.358056 + "," + -71.063611));
-        params.add(new BasicNameValuePair("destination", 42.266667 + "," + -71.8));
+        //params.add(new BasicNameValuePair("origin", 42.358056 + "," + -71.063611));
+        //params.add(new BasicNameValuePair("destination", 42.266667 + "," + -71.8));
+        params.add(new BasicNameValuePair("origin", start));
+        params.add(new BasicNameValuePair("destination", destination));
         params.add(new BasicNameValuePair("sensor", "false"));
         params.add(new BasicNameValuePair("key", "AIzaSyAvPCZzdtfCJy_bDpXQsHs1znICS-LqMpo"));
         String paramString = URLEncodedUtils.format(params, "utf-8");
@@ -137,24 +149,122 @@ public class Route implements Runnable{
         List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String, String>>>();
         JSONArray jSteps = null;
         List<LatLng> LatLongList = new ArrayList<LatLng>();
+        int secondsTraveled = 0;
+        int secondsOfStep = 0;
+        List<JSONObject> validSteps = new ArrayList<JSONObject>();
+        List<HashMap> validCoords = new ArrayList<HashMap>();
+        int lowerBoundSeconds = secondsToStart - 20 * 60;
+        int upperBoundSeconds = secondsToStart + 20 * 60;
         try {
             //jSteps = (JSONObject) firstLeg.getJSONArray("steps");
             jSteps = (JSONArray) firstLeg.get("steps");
-            List<HashMap<String, String>> path = new ArrayList<HashMap<String, String>>();
 
             /** Traversing all steps */
             for (int k = 0; k < jSteps.size(); k++) {
-                String poly = "";
-                poly = (String) ((JSONObject) ((JSONObject) jSteps
-                        .get(k)).get("polyline")).get("points");
-                List<LatLng> list = decodePoly(poly);
+                JSONObject thisStep = (JSONObject) jSteps.get(k);
+                JSONObject durationObj = (JSONObject) thisStep.get("duration");
+                long secondsLong = (Long) durationObj.get("value");
+                secondsOfStep = (int) secondsLong;
+
+                //Add step if it's after the desired time and within 30 mins of the desired time
+                if(secondsTraveled >= lowerBoundSeconds
+                        && secondsTraveled <= upperBoundSeconds) {
+                    validSteps.add((JSONObject) jSteps.get(k));
+
+                    //If this is the first valid element, also add starting coords
+                    if(validSteps.size() == 1) {
+                        HashMap latLong = new HashMap();
+                        JSONObject stepEndLocation = ((JSONObject) ((JSONObject) jSteps.get(k)).get("start_location"));
+                        latLong.put("lat", stepEndLocation.get("lat"));
+                        latLong.put("long", stepEndLocation.get("long"));
+                        validCoords.add(latLong);
+                    }
+                    HashMap latLong = new HashMap();
+                    JSONObject stepEndLocation = ((JSONObject) ((JSONObject) jSteps.get(k)).get("end_location"));
+                    latLong.put("lat", stepEndLocation.get("lat"));
+                    latLong.put("long", stepEndLocation.get("long"));
+                    validCoords.add(latLong);
+                }
+                secondsTraveled += secondsOfStep;
             }
-            routes.add(path);
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //Have a list of latlong pairs to call on yelp API
+        for (int i = 0; i < validCoords.size(); i++) {
+            //Maybe puff up a value if the box is practically a line?
+
+            HashMap beginCoords = validCoords.get(i);
+            HashMap endCoords = validCoords.get(i+1);
+            Yelp yelp = new Yelp("lunch", beginCoords.get("lat").toString(),
+                    beginCoords.get("long").toString(), endCoords.get("lat").toString(),
+                    endCoords.get("long").toString());
+            //Now what do I call?
+
+
+            //Determine the distance between the beginning, end, and center points
+            HashMap centerCoords = midPoint(Double.parseDouble(beginCoords.get("lat").toString()),
+                    Double.parseDouble(beginCoords.get("long").toString()),
+                    Double.parseDouble(endCoords.get("lat").toString()),
+                    Double.parseDouble(endCoords.get("long").toString()));
+
+
+            //For each yelp result, find how far it is from the route
+//            double beginDistance = distance(Double.parseDouble(beginCoords.get("lat").toString()),
+//                    );
+//
+//            double middleDistance = distance(Double.parseDouble(endCoords.get("lat").toString()),
+//                    );
+//
+//            double endDistance = distance(Double.parseDouble(centerCoords.get("lat")),
+//                    );
+//
+//            double distanceEstimate = (beginDistance + middleDistance + endDistance) / 3;
+
         }
 
 
+    }
+
+    private double distance(double lat1, double lat2, double lon1, double lon2) {
+
+        final int R = 6371; // Radius of the earth
+
+        Double latDistance = deg2rad(lat2 - lat1);
+        Double lonDistance = deg2rad(lon2 - lon1);
+        Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+        distance = Math.pow(distance, 2);
+        return Math.sqrt(distance);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private static HashMap midPoint(double lat1,double lon1,double lat2,double lon2){
+
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        //convert to radians
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+        lon1 = Math.toRadians(lon1);
+
+        double Bx = Math.cos(lat2) * Math.cos(dLon);
+        double By = Math.cos(lat2) * Math.sin(dLon);
+        double lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + Bx) * (Math.cos(lat1) + Bx) + By * By));
+        double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
+        HashMap center = new HashMap();
+        center.put("lat", String.valueOf(lat3));
+        center.put("long", String.valueOf(lon3));
+        return center;
     }
 
     @Override
