@@ -11,6 +11,7 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -109,10 +110,14 @@ public class Yelp {
      * Queries the Search API based on the command line arguments and takes the first result to query
      * the Business API.
      */
-    public HashMap<String, String> queryAPI() {
+    public ArrayList<HashMap<String, String>> queryAPI() {
         JSONObject response = queryAPIJSONResponse();
-        HashMap<String, String> result = queryAPIForBusiness(response, 1);
-        return result; 
+        ArrayList<HashMap<String, String>> listOfYelpResults = new ArrayList<HashMap<String, String>>();
+        for(int i = 0; i < SEARCH_LIMIT; i++){
+            HashMap<String, String> result = queryAPIForBusiness(response, i);
+            listOfYelpResults.add(result);
+        }
+        return listOfYelpResults;
     }
 
     public JSONObject queryAPIJSONResponse(){
