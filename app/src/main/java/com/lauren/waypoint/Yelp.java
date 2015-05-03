@@ -1,5 +1,7 @@
 package com.lauren.waypoint;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,6 +12,9 @@ import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Lauren on 4/29/15.
@@ -40,6 +45,8 @@ public class Yelp {
     public String neLat = DEFAULT_NE_LATITUDE;
     public String neLong = DEFAULT_NE_LONGITUDE;
 
+    private SQLiteDatabase database;
+
     /**
      * Setup the Yelp API OAuth credentials and take in parameters
      *
@@ -49,7 +56,7 @@ public class Yelp {
      * @param yelpNELat northeast latitude of bounding box for yelp location to query for
      * @param yelpNELong northeast longitude of bounding box for yelp location to query for
      */
-    public Yelp(String yelpTerm, String yelpSWLat, String yelpSWLong, String yelpNELat, String yelpNELong){
+    public Yelp(String yelpTerm, String yelpSWLat, String yelpSWLong, String yelpNELat, String yelpNELong, SQLiteDatabase database){
         this.service =
                 new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(CONSUMER_KEY)
                         .apiSecret(CONSUMER_SECRET).build();
@@ -59,6 +66,7 @@ public class Yelp {
         this.swLong = yelpSWLong;
         this.neLat = yelpNELat;
         this.neLong = yelpNELong;
+        this.database = database;
     }
 
     /**
@@ -107,9 +115,15 @@ public class Yelp {
      * Queries the Search API based on the command line arguments and takes the first result to query
      * the Business API.
      */
-    public void queryAPI() {
+    public ArrayList<HashMap<String, String>> queryAPI() {
         JSONObject response = queryAPIJSONResponse();
-        queryAPIForBusiness(response, 1);
+        JSONArray numBusinesses = (JSONArray) response.get("businesses");
+        ArrayList<HashMap<String, String>> listOfYelpResults = new ArrayList<HashMap<String, String>>();
+        for(int i = 0; i < numBusinesses.size(); i++){
+            HashMap<String, String> result = queryAPIForBusiness(response, i);
+            listOfYelpResults.add(result);
+        }
+        return listOfYelpResults;
     }
 
     public JSONObject queryAPIJSONResponse(){
@@ -127,7 +141,9 @@ public class Yelp {
         return response;
     }
 
-    public void queryAPIForBusiness(JSONObject response, int numBusiness){
+    public HashMap<String, String> queryAPIForBusiness(JSONObject response, int numBusiness){
+        HashMap<String, String> yelpHashMap = new HashMap<String, String>();
+
         JSONArray businesses = (JSONArray) response.get("businesses");
         JSONObject theBusiness = (JSONObject) businesses.get(numBusiness);
         String businessID = theBusiness.get("id").toString();
@@ -146,8 +162,22 @@ public class Yelp {
         System.out.println("Yelp Link: " + businessYelpLink);
         String[] businessCoords = getBusinessLatLongCoords(theBusiness);
         System.out.println("Coords: " + businessCoords[0] + " " + businessCoords[1]);
-        String categories = getBusinessCategories(theBusiness);
-        System.out.println("Categories: " + categories);
+        String businessCategories = getBusinessCategories(theBusiness);
+        System.out.println("Categories: " + businessCategories);
+
+        yelpHashMap.put("id", businessID);
+        yelpHashMap.put("name", businessName);
+        yelpHashMap.put("rating", businessRating.toString());
+        yelpHashMap.put("address", businessAddress);
+        yelpHashMap.put("link", businessYelpLink);
+        yelpHashMap.put("latitude", businessCoords[0]);
+        yelpHashMap.put("longitude", businessCoords[1]);
+        yelpHashMap.put("categories", businessCategories);
+
+        String databaseString = "INSERT INTO YelpData (Name, Rating, Address, Link, Latitude, Longitude, Categories) VALUES (" + '"' + businessName + '"'+ ", " + businessRating + ", '" + businessAddress + "', '" + businessYelpLink + "', '" + businessCoords[0] + "', '" + businessCoords[1] + "', '" + businessCategories + "');";
+        database.execSQL(databaseString);
+
+        return yelpHashMap;
 
     }
 
@@ -177,11 +207,18 @@ public class Yelp {
 
     public String getBusinessAddress(JSONObject business){
         JSONObject location = (JSONObject) business.get("location");
-        String street = location.get("address").toString();
-        String streetSubstring = street.substring(2, street.length()-2);
+        JSONArray streetArray = (JSONArray) location.get("address");
+        String street = "";
+        for(Object a : streetArray){
+            String streetSubstring = a.toString().substring(0, a.toString().length());
+            street+= streetSubstring + " ";
+        }
+        String finalStreet = street.substring(0, street.length());
+//        String street = location.get("address").toString();
+//        String streetSubstring = street.substring(2, comma-1);
         String city = (String) location.get("city");
         String state = (String) location.get("state_code");
-        return streetSubstring + " " + city + ", " + state;
+        return finalStreet + " " + city + ", " + state;
     }
 
     public String getBusinessYelpLink(JSONObject business){
@@ -207,12 +244,12 @@ public class Yelp {
         String finalCategories = categories.substring(0,categories.length()-1);
         return finalCategories;
     }
-
-
-    public static void main(String[] args) {
-        Yelp yelp = new Yelp("lunch","37.9", "-122.5", "37.78", "-122.3");
-        yelp.queryAPI();
-    }
+//
+//
+//    public static void main(String[] args) {
+//        Yelp yelp = new Yelp("lunch","37.9", "-122.5", "37.78", "-122.3");
+//        yelp.queryAPI();
+//    }
 
 
 }
