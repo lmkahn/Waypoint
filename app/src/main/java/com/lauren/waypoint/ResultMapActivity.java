@@ -155,11 +155,10 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
     }
 
     private void handleNewLocation(Location location) {
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
-        //CameraUpdateFactory.zoomTo(15);
+        LatLng latLng = new LatLng(latitude,longitude);
+        mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     @Override
@@ -168,9 +167,7 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
     }
 
     private void setUpMap() {
-        LatLng coords = new LatLng(latitude, longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 20));
-        mMap.addMarker(new MarkerOptions().position(coords).title(name));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0,0)).title("Marker"));
     }
 
     private void setUpMapIfNeeded() {
@@ -182,8 +179,6 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
-                LatLng coords = new LatLng(latitude, longitude);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 20));
             }
         }
     }

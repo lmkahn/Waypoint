@@ -120,11 +120,6 @@ public class Route implements Runnable{
         Long distanceValue = (Long) distance.get("value");
         double distanceMeters = Double.parseDouble(distanceValue.toString());
         double distanceKilometers = distanceMeters / 1000;
-        Log.i("Distance", String.valueOf(distanceKilometers));
-
-        Log.i("Polyline", polyline.toString());
-        Log.i("Hello", "Hey");
-
 
         List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String, String>>>();
         JSONArray jSteps = null;
@@ -225,19 +220,11 @@ public class Route implements Runnable{
         //We now have a list of yelp results. What do we do with them?
         int index = 1;
         for (HashMap<String, String> result : yelpResultToStore) {
-            String linkLocal = result.get("link");
             String distanceLocal = result.get("distanceFromRoute");
-            //String selectQuery = "SELECT * FROM YelpData WHERE link=" + linkLocal + ";";
-            //String result = database.execSQL(selectQuery);
             String databaseString = "INSERT INTO YelpData (Name, Rating, Address, Link, Latitude, Longitude, Categories, Distance) VALUES (" + '"' + result.get("name") + '"'+ ", " + Float.parseFloat(result.get("rating")) + ", '" + result.get("address") + "', '" + result.get("link") + "', '" + result.get("latitude") + "', '" + result.get("longitude") + "', '" + result.get("categories") + "', '" + distanceLocal + "');";
             database.execSQL(databaseString);
             index++;
-            //String databaseString = "INSERT INTO YelpData (Distance) VALUES ( " + distanceLocal + ") WHERE link = " + linkLocal + ";";
-            //database.execSQL(databaseString);
         }
-        //Let's sort them by distance
-        //yelpResultToStore
-
     }
 
     private double distance(double lat1, double lat2, double lon1, double lon2) {
@@ -286,39 +273,6 @@ public class Route implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private List<LatLng> decodePoly(String encoded) {
-
-        List<LatLng> poly = new ArrayList<LatLng>();
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
-
-        while (index < len) {
-            int b, shift = 0, result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
-
-            shift = 0;
-            result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-
-            LatLng p = new LatLng((((double) lat / 1E5)),
-                    (((double) lng / 1E5)));
-            poly.add(p);
-        }
-        return poly;
     }
 
     public static String getDestination() {
