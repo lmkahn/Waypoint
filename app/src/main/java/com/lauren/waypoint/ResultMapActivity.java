@@ -34,6 +34,8 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
     Double longitude = 0.0;
     String name;
     String waypoint;
+    String lat;
+    String lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,9 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
         latitude = c.getDouble(c.getColumnIndexOrThrow("latitude"));
         longitude = c.getDouble(c.getColumnIndexOrThrow("longitude"));
 
+        lat = latitude.toString();
+        lon = longitude.toString();
+
         name = c.getString(c.getColumnIndexOrThrow("name"));
         location = c.getString(c.getColumnIndexOrThrow("address"));
         rating = c.getFloat(c.getColumnIndexOrThrow("rating"));
@@ -110,7 +115,9 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
 //        startActivity(intent);
         String start = Route.getStart();
         String end = Route.getDestination();
-        String uriString = "https://maps.google.com/maps?saddr=" + start + "&daddr=" + end + "&waypoints=" + waypoint;
+        //use lat long of waypoint address
+        String waypointStr = lat + "," + lon + "|";
+        String uriString = "http://maps.google.com/maps?saddr=" + start + "&daddr=" + end + "&waypoints=" + waypointStr;
 
         database.delete("YelpData", null, null);
 

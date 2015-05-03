@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Lauren on 4/19/15.
  */
@@ -76,6 +78,13 @@ public class RouteInputActivity extends FragmentActivity {
             Route router = new Route(categoryStr, startNameString, destNameString, seconds, database);
             Thread t = new Thread(router);
             t.start();
+
+            //Pause so thread can finish and populate DB
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Intent intent = new Intent(this, ListItemResults.class);
             startActivity(intent);
         }
