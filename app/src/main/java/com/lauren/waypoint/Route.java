@@ -39,10 +39,6 @@ public class Route implements Runnable{
             return null;
         }
     };
-    String lat1;
-    String lat2;
-    String long1;
-    String long2;
     String start;
     String destination;
     int secondsToStart;
@@ -55,14 +51,6 @@ public class Route implements Runnable{
         this.destination = destination;
         this.secondsToStart = secondsToStart;
         this.database = database;
-    }
-
-    public Route(String lat1, String long1, String lat2, String long2, int secondsToStart) {
-        this.lat1 = lat1;
-        this.lat2 = lat2;
-        this.long1 = long1;
-        this.long2 = long2;
-        this.secondsToStart = secondsToStart;
     }
 
     public void route() throws IOException {
@@ -241,7 +229,7 @@ public class Route implements Runnable{
             String distanceLocal = result.get("distanceFromRoute");
             //String selectQuery = "SELECT * FROM YelpData WHERE link=" + linkLocal + ";";
             //String result = database.execSQL(selectQuery);
-            String databaseString = "INSERT INTO YelpData (_id, Name, Rating, Address, Link, Latitude, Longitude, Categories, Distance) VALUES (" + index + ", " + '"' + result.get("name") + '"'+ ", " + Float.parseFloat(result.get("rating")) + ", '" + result.get("address") + "', '" + result.get("link") + "', '" + result.get("latitude") + "', '" + result.get("longitude") + "', '" + result.get("categories") + "', '" + distanceLocal + "');";
+            String databaseString = "INSERT INTO YelpData (Name, Rating, Address, Link, Latitude, Longitude, Categories, Distance) VALUES (" + '"' + result.get("name") + '"'+ ", " + Float.parseFloat(result.get("rating")) + ", '" + result.get("address") + "', '" + result.get("link") + "', '" + result.get("latitude") + "', '" + result.get("longitude") + "', '" + result.get("categories") + "', '" + distanceLocal + "');";
             database.execSQL(databaseString);
             index++;
             //String databaseString = "INSERT INTO YelpData (Distance) VALUES ( " + distanceLocal + ") WHERE link = " + linkLocal + ";";
