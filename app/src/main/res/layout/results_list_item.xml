@@ -3,7 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
     >
 
     <TextView
@@ -60,5 +65,11 @@
         android:textSize="14sp"
         android:text="Arrival time: X hours X minutes"
         />
+
+    <TextView
+        android:id="@+id/list_item_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="categories"/>
 </LinearLayout>
 

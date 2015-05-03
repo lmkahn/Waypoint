@@ -10,12 +10,15 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.IOException;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Created by Lauren on 4/19/15.
  */
 public class RouteInputActivity extends FragmentActivity {
     SQLiteDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,20 @@ public class RouteInputActivity extends FragmentActivity {
     }
     //handles submit button click to query for route results
     public void onSubmitRoute(View v){
-        Intent intent = new Intent(this, ListItemResults.class);
-        startActivity(intent);
-        //System.out.println("this is a console message");
+        EditText startingPointInput = (EditText) findViewById(R.id.route_start_input);
+        EditText endPointInput = (EditText) findViewById(R.id.route_end_input);
+        TextView startEmpty = (TextView) findViewById(R.id.start_required);
+        TextView endEmpty = (TextView) findViewById(R.id.end_required);
+        if( startingPointInput.getText().toString().trim().equals("")){
+            startEmpty.setVisibility(View.VISIBLE);
+        }
+        if( endPointInput.getText().toString().trim().equals("")){
+            endEmpty.setVisibility(View.VISIBLE);
+        }
+        //wrap everything that was in this function with an else statement
+        else {
+            Intent intent = new Intent(this, ListItemResults.class);
+            startActivity(intent);
+        }
     }
 }
