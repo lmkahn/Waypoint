@@ -65,19 +65,12 @@
                 android:text="X miles off route"
                 />
         </LinearLayout>
-        <TextView
-            android:id="@+id/item_arrival_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="Arrival time: X hours X minutes"
-            />
 
         <TextView
             android:id="@+id/item_categories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="categories"/>
+            android:text="Categories"/>
     </LinearLayout>
     <Button
         android:layout_width="wrap_content"
@@ -88,7 +81,7 @@
         android:layout_marginLeft="8dp"
         android:textColor="#ffffff"
         android:background="@drawable/button"
-        android:text="Add to Route"
+        android:text="Create Route"
         android:onClick="addPointToRoute"/>
 
 </LinearLayout>

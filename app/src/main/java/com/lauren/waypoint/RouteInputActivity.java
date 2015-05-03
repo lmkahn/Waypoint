@@ -4,15 +4,10 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import java.io.IOException;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import java.util.HashMap;
 
 /**
  * Created by Lauren on 4/19/15.
@@ -61,11 +56,17 @@ public class RouteInputActivity extends FragmentActivity {
             //Get hours and minutes
             int hoursVal = 0;
             EditText hours = (EditText) findViewById(R.id.hours_input);
-            hoursVal = Integer.parseInt(hours.getText().toString());
+            String hoursString = hours.getText().toString();
+            if(!(hoursString.equals(""))) {
+                hoursVal = Integer.parseInt(hoursString);
+            }
 
             int minutesVal = 0;
             EditText minutes = (EditText) findViewById(R.id.minutes_input);
-            minutesVal = Integer.parseInt(minutes.getText().toString());
+            String minutesString = minutes.getText().toString();
+            if(!(minutesString.equals(""))) {
+                minutesVal = Integer.parseInt(minutesString);
+            }
 
             int seconds = minutesVal * 60 + hoursVal * 3600;
             //Finish getting time offset

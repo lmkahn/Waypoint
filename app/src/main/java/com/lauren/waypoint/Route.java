@@ -39,8 +39,8 @@ public class Route implements Runnable{
             return null;
         }
     };
-    String start;
-    String destination;
+    static String start;
+    static String destination;
     int secondsToStart;
     SQLiteDatabase database;
     String category;
@@ -320,4 +320,14 @@ public class Route implements Runnable{
         }
         return poly;
     }
+
+    public static String getDestination() {
+        return destination;
+    }
+
+    public static String getStart() {
+        return start;
+    }
+
+
 }

@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
-import android.support.v4.app.FragmentActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -29,6 +30,10 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
     private LocationRequest mLocationRequest;
     private GoogleMap mMap;
     SQLiteDatabase database;
+    Double latitude = 0.0;
+    Double longitude = 0.0;
+    String name;
+    String waypoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +45,15 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
         RatingBar resRating = (RatingBar) findViewById(R.id.item_rating);
         TextView resLocation = (TextView) findViewById(R.id.item_location);
         TextView resMilesAway = (TextView) findViewById(R.id.item_miles_away);
-        TextView resArrivalTime = (TextView) findViewById(R.id.item_arrival_time);
         TextView resId = (TextView) findViewById(R.id.item_id);
+        TextView resCategories = (TextView) findViewById(R.id.item_categories);
 
-        String name;
         String location;
-        String rating;
+        Float rating;
         String milesAway;
         String arrivalTime;
         String id;
+        String categories;
 
         if (savedInstanceState == null) {
             Bundle bundle = getIntent().getExtras();
@@ -67,17 +72,24 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
         String queryString = "SELECT * FROM YelpData WHERE _id=" + "'" + id + "'";
         Cursor c = database.rawQuery(queryString, null);
         c.moveToFirst();
+
+        latitude = c.getDouble(c.getColumnIndexOrThrow("latitude"));
+        longitude = c.getDouble(c.getColumnIndexOrThrow("longitude"));
+
         name = c.getString(c.getColumnIndexOrThrow("name"));
         location = c.getString(c.getColumnIndexOrThrow("address"));
-        rating = c.getString(c.getColumnIndexOrThrow("rating"));
+        rating = c.getFloat(c.getColumnIndexOrThrow("rating"));
         milesAway = c.getString(c.getColumnIndexOrThrow("distance"));
         arrivalTime = c.getString(c.getColumnIndexOrThrow("latitude"));
+        categories = c.getString(c.getColumnIndexOrThrow("categories"));
+
+        waypoint = location;
 
         resName.setText(name);
         resLocation.setText(location);
         resMilesAway.setText(milesAway);
-        resArrivalTime.setText(arrivalTime);
-        resRating.setRating(3/5);
+        resRating.setRating(rating);
+        resCategories.setText(categories);
 
         setUpMapIfNeeded();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -94,7 +106,16 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
     }
 
     public void addPointToRoute(View v){
-        Intent intent = new Intent(this, RouteSummaryActivity.class);
+//        Intent intent = new Intent(this, RouteSummaryActivity.class);
+//        startActivity(intent);
+        String start = Route.getStart();
+        String end = Route.getDestination();
+        String uriString = "https://maps.google.com/maps?saddr=" + start + "&daddr=" + end + "&waypoints=" + waypoint;
+
+        database.delete("YelpData", null, null);
+
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse(uriString));
         startActivity(intent);
     }
     @Override
@@ -140,7 +161,9 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
     }
 
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        LatLng coords = new LatLng(latitude, longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 20));
+        mMap.addMarker(new MarkerOptions().position(coords).title(name));
     }
 
     private void setUpMapIfNeeded() {
@@ -152,6 +175,8 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
+                LatLng coords = new LatLng(latitude, longitude);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 20));
             }
         }
     }

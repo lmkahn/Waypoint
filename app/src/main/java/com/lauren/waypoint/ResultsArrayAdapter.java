@@ -36,6 +36,8 @@ public class ResultsArrayAdapter extends CursorAdapter {
         TextView resMilesAway = (TextView) view.findViewById(R.id.list_item_miles_away);
         TextView resArrivalTime = (TextView) view.findViewById(R.id.list_item_arrival_time);
         TextView resId = (TextView) view.findViewById(R.id.list_item_id);
+        TextView resCategories = (TextView) view.findViewById(R.id.list_item_categories);
+
         // Extract properties from cursor
         String item_name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
         Float item_rating = cursor.getFloat(cursor.getColumnIndexOrThrow("rating"));
@@ -57,6 +59,7 @@ public class ResultsArrayAdapter extends CursorAdapter {
         resMilesAway.setText(item_longitude);
         resArrivalTime.setText(item_distance);
         resId.setText(item_id);
+        resCategories.setText(item_categories);
 
 
     }

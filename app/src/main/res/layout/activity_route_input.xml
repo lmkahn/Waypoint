@@ -154,27 +154,6 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="20dp"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="no more than"/>
-            <EditText
-                android:id="@+id/miles_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="7dp"
-                android:paddingRight="7dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:background="@drawable/edittext_style"
-                android:hint="0"
-                android:inputType="number"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="miles off of my route"/>
 
         </LinearLayout>
 
