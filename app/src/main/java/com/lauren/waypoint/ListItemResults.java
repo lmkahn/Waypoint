@@ -28,12 +28,23 @@ public class ListItemResults extends ListActivity {
 
         String queryString = "SELECT * FROM YelpData";
         Cursor c = database.rawQuery(queryString, null);
-        // Find ListView to populate
-        ListView resultsListView = (ListView) findViewById(android.R.id.list);
-        // Setup cursor adapter using cursor from last step
-        ResultsArrayAdapter resultsAdapter = new ResultsArrayAdapter(this, c);
-        // Attach cursor adapter to the ListView
-        resultsListView.setAdapter(resultsAdapter);
+        if ( c.moveToFirst() ) {
+            // start activity a
+            // Find ListView to populate
+            ListView resultsListView = (ListView) findViewById(android.R.id.list);
+            // Setup cursor adapter using cursor from last step
+            ResultsArrayAdapter resultsAdapter = new ResultsArrayAdapter(this, c);
+            // Attach cursor adapter to the ListView
+            resultsListView.setAdapter(resultsAdapter);
+        } else {
+            // start activity b
+            Intent intent = new Intent(this, RouteInputActivity.class);
+            intent.putExtra("Error", "noResults");
+            startActivity(intent);
+
+        }
+
+
 
     }
 

@@ -41,6 +41,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:padding="5dp"
+                android:maxLines="1"
                 android:background="@drawable/edittext_style"
                 android:hint="Starting Point"/>
             <TextView
@@ -64,6 +65,7 @@
                 android:layout_weight="9"
                 android:layout_margin="5dp"
                 android:padding="5dp"
+                android:maxLines="1"
                 android:background="@drawable/edittext_style"
                 android:hint="Destination"/>
             <TextView
@@ -80,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:text="Search For"
+            android:text="Search Yelp For"
             android:textStyle="bold"
             android:textAllCaps="true"
             android:textSize="18sp"/>
@@ -143,7 +145,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="minutes away"/>
+                android:text="minutes into your trip."/>
 
         </LinearLayout>
         <LinearLayout
@@ -170,6 +172,12 @@
             android:layout_marginLeft="8dp"
             android:textColor="#ffffff"
             />
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="It worked."
+            android:visibility="gone"/>
 
     </LinearLayout>
 </ScrollView>

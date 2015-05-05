@@ -33,8 +33,6 @@ public class ResultsArrayAdapter extends CursorAdapter {
         TextView resName = (TextView) view.findViewById(R.id.list_item_service_name);
         RatingBar resRating = (RatingBar) view.findViewById(R.id.list_item_rating);
         TextView resLocation = (TextView) view.findViewById(R.id.list_item_location);
-        TextView resMilesAway = (TextView) view.findViewById(R.id.list_item_miles_away);
-        TextView resArrivalTime = (TextView) view.findViewById(R.id.list_item_arrival_time);
         TextView resId = (TextView) view.findViewById(R.id.list_item_id);
         TextView resCategories = (TextView) view.findViewById(R.id.list_item_categories);
 
@@ -42,11 +40,7 @@ public class ResultsArrayAdapter extends CursorAdapter {
         String item_name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
         Float item_rating = cursor.getFloat(cursor.getColumnIndexOrThrow("rating"));
         String item_address = cursor.getString(cursor.getColumnIndexOrThrow("address"));
-        String item_link = cursor.getString(cursor.getColumnIndexOrThrow("link"));
-        String item_latitude = cursor.getString(cursor.getColumnIndexOrThrow("latitude"));
-        String item_longitude = cursor.getString(cursor.getColumnIndexOrThrow("longitude"));
         String item_categories = cursor.getString(cursor.getColumnIndexOrThrow("categories"));
-        String item_distance = cursor.getString(cursor.getColumnIndexOrThrow("distance"));
         String item_id = cursor.getString(cursor.getColumnIndexOrThrow("_id"));
 
         // Populate fields with extracted properties
@@ -56,8 +50,6 @@ public class ResultsArrayAdapter extends CursorAdapter {
         resName.setText(item_name);
         resRating.setRating(item_rating);
         resLocation.setText(item_address);
-        resMilesAway.setText(item_longitude);
-        resArrivalTime.setText(item_distance);
         resId.setText(item_id);
         resCategories.setText(item_categories);
 

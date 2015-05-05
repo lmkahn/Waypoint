@@ -1,9 +1,9 @@
 package com.lauren.waypoint;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
@@ -29,10 +29,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+
+
 /**
  * Created by Andy on 4/29/15.
  */
-public class Route implements Runnable{
+public class Route extends FragmentActivity implements Runnable{
     static final HttpTransport transport = new HttpTransport() {
         @Override
         protected LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
@@ -44,22 +46,25 @@ public class Route implements Runnable{
     int secondsToStart;
     SQLiteDatabase database;
     String category;
+    Context context;
+    Boolean resultsWorked;
 
-    public Route(String category, String start, String destination, int secondsToStart, SQLiteDatabase database) {
+    public Route(Context context, String category, String start, String destination, int secondsToStart, SQLiteDatabase database) {
         this.category = category;
         this.start = start;
         this.destination = destination;
         this.secondsToStart = secondsToStart;
         this.database = database;
+        this.context = context;
     }
+
+
 
     public void route() throws IOException {
         HttpRequestFactory factory = transport.createRequestFactory();
 
         String urlString = "https://maps.googleapis.com/maps/api/directions/json?";
         List<NameValuePair> params = new LinkedList<NameValuePair>();
-        //params.add(new BasicNameValuePair("origin", 42.358056 + "," + -71.063611));
-        //params.add(new BasicNameValuePair("destination", 42.266667 + "," + -71.8));
         params.add(new BasicNameValuePair("origin", start));
         params.add(new BasicNameValuePair("destination", destination));
         params.add(new BasicNameValuePair("sensor", "false"));
@@ -93,6 +98,15 @@ public class Route implements Runnable{
         catch(Exception e) {
         }
 
+        //Check if there were no valid results
+        if(json.length() < 100) {
+            //this.googleWorked = false;
+            //return;
+            //Intent intent = new Intent(context.getApplicationContext(), RouteInputActivity.class);
+            //startActivity(intent);
+
+        }
+
         JSONParser parser = new JSONParser();
         Object obj = null;
         try {
@@ -106,126 +120,121 @@ public class Route implements Runnable{
         JSONArray jsonArray = null;
         jsonArray = (JSONArray) jb.get("routes");
 
-        JSONObject firstDirection = null;
-        firstDirection = (JSONObject)jsonArray.get(0);
+        if(jsonArray.size() != 0 ) {
+            JSONObject firstDirection = null;
+            firstDirection = (JSONObject) jsonArray.get(0);
 
-        JSONObject polyline = null;
-        polyline = (JSONObject)firstDirection.get("overview_polyline");
+            JSONArray legs = null;
+            legs = (JSONArray) firstDirection.get("legs");
+            JSONObject firstLeg = (JSONObject) legs.get(0);
+            JSONObject distance = null;
+            distance = (JSONObject) firstLeg.get("distance");
+            Long distanceValue = (Long) distance.get("value");
+            double distanceMeters = Double.parseDouble(distanceValue.toString());
+            double distanceKilometers = distanceMeters / 1000;
 
-        JSONArray legs = null;
-        legs = (JSONArray) firstDirection.get("legs");
-        JSONObject firstLeg = (JSONObject) legs.get(0);
-        JSONObject distance = null;
-        distance = (JSONObject) firstLeg.get("distance");
-        Long distanceValue = (Long) distance.get("value");
-        double distanceMeters = Double.parseDouble(distanceValue.toString());
-        double distanceKilometers = distanceMeters / 1000;
+            JSONArray jSteps = null;
+            int secondsTraveled = 0;
+            int secondsOfStep = 0;
+            List<JSONObject> validSteps = new ArrayList<JSONObject>();
+            List<HashMap> validCoords = new ArrayList<HashMap>();
+            int lowerBoundSeconds = secondsToStart - 20 * 60;
+            int upperBoundSeconds = secondsToStart + 20 * 60;
+            try {
+                jSteps = (JSONArray) firstLeg.get("steps");
 
-        List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String, String>>>();
-        JSONArray jSteps = null;
-        List<LatLng> LatLongList = new ArrayList<LatLng>();
-        int secondsTraveled = 0;
-        int secondsOfStep = 0;
-        List<JSONObject> validSteps = new ArrayList<JSONObject>();
-        List<HashMap> validCoords = new ArrayList<HashMap>();
-        int lowerBoundSeconds = secondsToStart - 20 * 60;
-        int upperBoundSeconds = secondsToStart + 20 * 60;
-        try {
-            //jSteps = (JSONObject) firstLeg.getJSONArray("steps");
-            jSteps = (JSONArray) firstLeg.get("steps");
+                /** Traversing all steps */
+                for (int k = 0; k < jSteps.size(); k++) {
+                    JSONObject thisStep = (JSONObject) jSteps.get(k);
+                    JSONObject durationObj = (JSONObject) thisStep.get("duration");
+                    long secondsLong = (Long) durationObj.get("value");
+                    secondsOfStep = (int) secondsLong;
 
-            /** Traversing all steps */
-            for (int k = 0; k < jSteps.size(); k++) {
-                JSONObject thisStep = (JSONObject) jSteps.get(k);
-                JSONObject durationObj = (JSONObject) thisStep.get("duration");
-                long secondsLong = (Long) durationObj.get("value");
-                secondsOfStep = (int) secondsLong;
+                    //Add step if it's after the desired time and within 30 mins of the desired time
+                    if (secondsTraveled >= lowerBoundSeconds
+                            && secondsTraveled <= upperBoundSeconds) {
+                        validSteps.add((JSONObject) jSteps.get(k));
 
-                //Add step if it's after the desired time and within 30 mins of the desired time
-                if(secondsTraveled >= lowerBoundSeconds
-                        && secondsTraveled <= upperBoundSeconds) {
-                    validSteps.add((JSONObject) jSteps.get(k));
-
-                    //If this is the first valid element, also add starting coords
-                    if(validSteps.size() == 1) {
+                        //If this is the first valid element, also add starting coords
+                        if (validSteps.size() == 1) {
+                            HashMap latLong = new HashMap();
+                            JSONObject stepEndLocation = ((JSONObject) ((JSONObject) jSteps.get(k)).get("start_location"));
+                            latLong.put("lat", stepEndLocation.get("lat"));
+                            latLong.put("long", stepEndLocation.get("lng"));
+                            validCoords.add(latLong);
+                        }
                         HashMap latLong = new HashMap();
-                        JSONObject stepEndLocation = ((JSONObject) ((JSONObject) jSteps.get(k)).get("start_location"));
-                        latLong.put("lat", stepEndLocation.get("lat"));
-                        latLong.put("long", stepEndLocation.get("lng"));
+                        JSONObject stepEndLocation = ((JSONObject) ((JSONObject) jSteps.get(k)).get("end_location"));
+                        String lat = stepEndLocation.get("lat").toString();
+                        String lon = stepEndLocation.get("lng").toString();
+                        latLong.put("lat", lat);
+                        latLong.put("long", lon);
                         validCoords.add(latLong);
                     }
-                    HashMap latLong = new HashMap();
-                    JSONObject stepEndLocation = ((JSONObject) ((JSONObject) jSteps.get(k)).get("end_location"));
-                    String lat = stepEndLocation.get("lat").toString();
-                    String lon = stepEndLocation.get("lng").toString();
-                    latLong.put("lat", lat);
-                    latLong.put("long", lon);
-                    validCoords.add(latLong);
+                    secondsTraveled += secondsOfStep;
                 }
-                secondsTraveled += secondsOfStep;
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            //Have a list of latlong pairs to call on yelp API
 
-        //Have a list of latlong pairs to call on yelp API
+            //List of yelp results
+            List<HashMap<String, String>> yelpResultToStore = new ArrayList<>();
+            List<String> establishmentNames = new ArrayList<>(); //Used to check uniqueness
+            for (int i = 0; i < validCoords.size() - 1; i++) {
+                //Maybe puff up a value if the box is practically a line?
 
-        //List of yelp results
-        List<HashMap<String, String>> yelpResultToStore = new ArrayList<>();
-        List<String> establishmentNames = new ArrayList<>(); //Used to check uniqueness
-        for (int i = 0; i < validCoords.size() -1 ; i++) {
-            //Maybe puff up a value if the box is practically a line?
+                HashMap beginCoords = validCoords.get(i);
+                HashMap endCoords = validCoords.get(i + 1);
+                //Determine the distance between the beginning, end, and center points
+                HashMap centerCoords = midPoint(Double.parseDouble(beginCoords.get("lat").toString()),
+                        Double.parseDouble(beginCoords.get("long").toString()),
+                        Double.parseDouble(endCoords.get("lat").toString()),
+                        Double.parseDouble(endCoords.get("long").toString()));
 
-            HashMap beginCoords = validCoords.get(i);
-            HashMap endCoords = validCoords.get(i+1);
-            //Determine the distance between the beginning, end, and center points
-            HashMap centerCoords = midPoint(Double.parseDouble(beginCoords.get("lat").toString()),
-                    Double.parseDouble(beginCoords.get("long").toString()),
-                    Double.parseDouble(endCoords.get("lat").toString()),
-                    Double.parseDouble(endCoords.get("long").toString()));
+                Yelp yelp = new Yelp(category, beginCoords.get("lat").toString(),
+                        beginCoords.get("long").toString(), endCoords.get("lat").toString(),
+                        endCoords.get("long").toString(), database);
 
-            Yelp yelp = new Yelp(category, beginCoords.get("lat").toString(),
-                    beginCoords.get("long").toString(), endCoords.get("lat").toString(),
-                    endCoords.get("long").toString(), database);
+                ArrayList<HashMap<String, String>> yelpResults = yelp.queryAPI();
+                for (int j = 0; j < yelpResults.size(); j++) {
+                    HashMap<String, String> yelpResult = yelpResults.get(j);
 
-            ArrayList<HashMap<String, String>> yelpResults = yelp.queryAPI();
-            for(int j = 0; j < yelpResults.size(); j++) {
-                HashMap<String, String> yelpResult = yelpResults.get(j);
+                    //Check that this isn't already in the list to add
+                    String establishmentName = yelpResult.get("name");
+                    if (!(establishmentNames.contains(establishmentName))) {
 
-                //Check that this isn't already in the list to add
-                String establishmentName = yelpResult.get("name");
-                if(!(establishmentNames.contains(establishmentName))) {
+                        Double resultLat = Double.parseDouble(yelpResult.get("latitude"));
+                        Double resultLong = Double.parseDouble(yelpResult.get("longitude"));
+                        //For each yelp result, find how far it is from the route
+                        double beginDistance = distance(Double.parseDouble(beginCoords.get("lat").toString()),
+                                resultLat, Double.parseDouble(beginCoords.get("long").toString()), resultLong);
 
-                    Double resultLat = Double.parseDouble(yelpResult.get("latitude"));
-                    Double resultLong = Double.parseDouble(yelpResult.get("longitude"));
-                    //For each yelp result, find how far it is from the route
-                    double beginDistance = distance(Double.parseDouble(beginCoords.get("lat").toString()),
-                            resultLat, Double.parseDouble(beginCoords.get("long").toString()), resultLong);
+                        double middleDistance = distance(Double.parseDouble(String.valueOf(centerCoords.get("lat"))),
+                                resultLat, Double.parseDouble(String.valueOf(centerCoords.get("long"))), resultLong);
 
-                    double middleDistance = distance(Double.parseDouble(String.valueOf(centerCoords.get("lat"))),
-                            resultLat, Double.parseDouble(String.valueOf(centerCoords.get("long"))), resultLong);
-
-                    double endDistance = distance(Double.parseDouble(endCoords.get("lat").toString()),
-                            resultLat, Double.parseDouble(endCoords.get("long").toString()), resultLong);
-                    double distanceEstimate = (beginDistance + middleDistance + endDistance) / 3;
-                    yelpResult.put("distanceFromRoute", String.valueOf(distanceEstimate));
-                    yelpResultToStore.add(yelpResult);
-                    //yelpResults.set(i, yelpResult);
+                        double endDistance = distance(Double.parseDouble(endCoords.get("lat").toString()),
+                                resultLat, Double.parseDouble(endCoords.get("long").toString()), resultLong);
+                        double distanceEstimate = (beginDistance + middleDistance + endDistance) / 3;
+                        yelpResult.put("distanceFromRoute", String.valueOf(distanceEstimate));
+                        yelpResultToStore.add(yelpResult);
+                    }
                 }
+
             }
 
-        }
 
-        //We now have a list of yelp results. What do we do with them?
-        int index = 1;
-        for (HashMap<String, String> result : yelpResultToStore) {
-            String distanceLocal = result.get("distanceFromRoute");
-            String databaseString = "INSERT INTO YelpData (Name, Rating, Address, Link, Latitude, Longitude, Categories, Distance) VALUES (" + '"' + result.get("name") + '"'+ ", " + Float.parseFloat(result.get("rating")) + ", '" + result.get("address") + "', '" + result.get("link") + "', '" + result.get("latitude") + "', '" + result.get("longitude") + "', '" + result.get("categories") + "', '" + distanceLocal + "');";
-            database.execSQL(databaseString);
-            index++;
-        }
+            for (HashMap<String, String> result : yelpResultToStore) {
+                String distanceLocal = result.get("distanceFromRoute");
+                String databaseString = "INSERT INTO YelpData (Name, Rating, Address, Link, Latitude, Longitude, Categories, Distance) VALUES (" + '"' + result.get("name") + '"' + ", " + Float.parseFloat(result.get("rating")) + ", '" + result.get("address") + "', '" + result.get("link") + "', '" + result.get("latitude") + "', '" + result.get("longitude") + "', '" + result.get("categories") + "', '" + distanceLocal + "');";
+                database.execSQL(databaseString);
+            }
+        } //end check if there are no google results.
     }
+
+
 
     private double distance(double lat1, double lat2, double lon1, double lon2) {
 
@@ -282,6 +291,5 @@ public class Route implements Runnable{
     public static String getStart() {
         return start;
     }
-
 
 }

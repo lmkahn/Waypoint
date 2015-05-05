@@ -1,13 +1,19 @@
 package com.lauren.waypoint;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+//import com.lauren.waypoint.Route.returnResults;
+
+import org.w3c.dom.Text;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,10 +31,34 @@ public class RouteInputActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_input);
 
+        String error;
+        if (savedInstanceState == null) {
+            Bundle bundle = getIntent().getExtras();
+            if(bundle == null) {
+                error = null;
+            } else {
+                error = bundle.getString("Error");
+            }
+        } else {
+            error = (String) savedInstanceState.getSerializable("ID");
+        }
+
+        if(error != null){
+            Context context = getApplicationContext();
+            CharSequence text = "No Results";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.setGravity(Gravity.TOP, 0, 150);
+            toast.show();
+        }
+
         ResultsDBHelper db = new ResultsDBHelper(this);
         database = db.getWritableDatabase();
 
+
     }
+
     //handles submit button click to query for route results
     public void onSubmitRoute(View v){
         EditText startingPointInput = (EditText) findViewById(R.id.route_start_input);
@@ -74,19 +104,20 @@ public class RouteInputActivity extends FragmentActivity {
             //Finish getting time offset
 
             //Get route
-            //Route router = new Route(startLat, startLong, destLat, destLong, seconds);
-            Route router = new Route(categoryStr, startNameString, destNameString, seconds, database);
+            Route router = new Route(getApplicationContext(), categoryStr, startNameString, destNameString, seconds, database);
             Thread t = new Thread(router);
             t.start();
 
             //Pause so thread can finish and populate DB
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(3500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             Intent intent = new Intent(this, ListItemResults.class);
             startActivity(intent);
+
         }
     }
 }

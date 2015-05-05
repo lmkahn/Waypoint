@@ -37,20 +37,6 @@
 
             android:text="Location - "/>
 
-        <TextView
-            android:id="@+id/list_item_miles_away"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:textSize="14sp"
-            android:text="X miles off route"
-            />
     </LinearLayout>
-    <TextView
-        android:id="@+id/list_item_arrival_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:text="Arrival time: X hours X minutes"
-        />
 </LinearLayout>
 

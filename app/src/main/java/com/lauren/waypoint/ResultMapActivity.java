@@ -116,8 +116,9 @@ public class ResultMapActivity extends FragmentActivity implements GoogleApiClie
         String start = Route.getStart();
         String end = Route.getDestination();
         //use lat long of waypoint address
-        String waypointStr = lat + "," + lon + "|";
-        String uriString = "http://maps.google.com/maps?saddr=" + start + "&daddr=" + end + "&waypoints=" + waypointStr;
+
+        String waypointStr = lat + "," + lon ;
+        String uriString = "http://maps.google.com/maps?output=classic&saddr=" + start + "&daddr=" + waypointStr + "+to:" + end;
 
         database.delete("YelpData", null, null);
 
